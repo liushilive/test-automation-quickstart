@@ -18,8 +18,8 @@ public class EmailAdaptor {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
 
-    private static final String EMAIL_ADDRESS = "opencredo.test@gmail.com";
-    private static final String PASSWORD = "Testing123!";
+    private static final String EMAIL_ADDRESS = "INSERT_TEST_EMAIL_HERE";
+    private static final String PASSWORD = "INSERT_PASSWORD_HERE";
     private static final int MAX_RECENT_MESSAGES_TO_SEARCH = 1000;
     private static final String INBOX_FOLDER = "INBOX";
 
@@ -49,8 +49,16 @@ public class EmailAdaptor {
     }
 
     public EmailAdaptor connect() throws MessagingException {
-        store = session.getStore(IMAP_PROTOCOL);
-        store.connect(IMAP_HOST, EMAIL_ADDRESS, PASSWORD);
+        try {
+            store = session.getStore(IMAP_PROTOCOL);
+            store.connect(IMAP_HOST, EMAIL_ADDRESS, PASSWORD);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Unable to connect with provided email account credentials ("
+                    + EMAIL_ADDRESS
+                    + ". Please check config in EmailAdaptor.java and try again");
+        }
+
         return this;
     }
 
